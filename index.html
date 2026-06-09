@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroI.A. - Inteligência Artificial no Campo</title>
+    <style>
+        :root {
+            --primary: #1b5e20;
+            --secondary: #81c784;
+            --dark: #212121;
+            --bg: #f1f8e9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1b5e20, #4caf50);
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 2rem 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 { margin: 0; font-size: 2.2rem; }
+        header p { margin: 0.5rem 0 0 0; opacity: 0.9; }
+
+        main {
+            max-width: 700px;
+            width: 90%;
+            margin: 2rem 0;
+        }
+
+        .painel {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .botoes-foto {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-foto {
+            background-color: #f5f5f5;
+            border: 2px dashed #b0bec5;
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-foto:hover {
+            border-color: var(--primary);
+            background-color: #e8f5e9;
+        }
+
+        .scanner-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background-color: #eceff1;
+            border-radius: 10px;
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border: 2px solid #cfd8dc;
+        }
+
+        .linha-scanner {
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background-color: #00e676;
+            top: 0;
+            box-shadow: 0 0 10px #00e676;
+            display: none;
+            animation: scannear 2s linear infinite;
+        }
+
+        @keyframes scannear {
+            0% { top: 0; }
+            50% { top: 100%; }
+            100% { top: 0; }
+        }
+
+        #resultado-ia {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+            text-align: left;
+        }
+
+        .resultado-sucesso { background-color: #e8f5e9; border-left: 5px solid #2e7d32; }
+        .resultado-alerta { background-color: #fffde7; border-left: 5px solid #fbc02d; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>AgroI.A. 🧠🌱</h1>
+        <p>Agrinho 2026: Diagnóstico de Lavoura por Visão Computacional</p>
+    </header>
+
+    <main>
+        <div class="painel">
+            <h2>Simulador de Reconhecimento de Pragas</h2>
+            <p>Simule o envio de uma foto da folha da plantação para a nossa Inteligência Artificial analisar:</p>
+            
+            <div class="botoes-foto">
+                <button class="btn-foto" onclick="analisarPlanta('saudavel')">📸 Enviar Foto: Folha Verde</button>
+                <button class="btn-foto" onclick="analisarPlanta('doente')">📸 Enviar Foto: Folha Amarelada/Manchada</button>
+            </div>
+
+            <div class="scanner-container">
+                <div class="linha-scanner" id="linha"></div>
+                <div id="status-scanner" style="font-weight: bold; color: #78909c;">Aguardando imagem...</div>
+            </div>
+
+            <div id="resultado-ia">
+                <h3 id="ia-titulo">Análise Concluída:</h3>
+                <p id="ia-diagnostico"></p>
+                <p id="ia-solucao" style="font-weight: bold;"></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function analisarPlanta(tipo) {
+            const linha = document.getElementById('linha');
+            const status = document.getElementById('status-scanner');
+            const resultado = document.getElementById('resultado-ia');
+            const titulo = document.getElementById('ia-titulo');
+            const diagnostico = document.getElementById('ia-diagnostico');
+            const solucao = document.getElementById('ia-solucao');
+
+            // Esconde resultados anteriores e ativa a animação de "scanning"
+            resultado.style.display = "none";
+            linha.style.display = "block";
+            status.innerText = "🧠 IA Processando Pixels e Padrões...";
+
+            setTimeout(() => {
+                // Para o scanner após 2 segundos (simulando o tempo de resposta da IA)
+                linha.style.display = "none";
+                status.innerText = "Análise Finalizada!";
+                resultado.style.display = "block";
+
+                if (tipo === 'saudavel') {
+                    resultado.className = "resultado-sucesso";
+                    titulo.innerText = "✅ Planta Saudável (Confiança: 98%)";
+                    diagnostico.innerText = "A IA não detectou padrões de fungos, lagartas ou estresse hídrico. Os níveis de clorofila estão excelentes.";
+                    solucao.innerText = "Recomendação: Manter o cronograma atual de irrigação.";
+                } else {
+                    resultado.className = "resultado-alerta";
+                    titulo.innerText = "⚠️ Alerta de Anomalia (Confiança: 89%)";
+                    diagnostico.innerText = "Detectado: Padrão de manchas circulares compatível com a doença fúngica 'Pinta Preta'.";
+                    solucao.innerText = "Recomendação Sustentável: Aplicar calda bordalesa (defensivo natural orgânico) na área afetada para evitar que se espalhe.";
+                }
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
