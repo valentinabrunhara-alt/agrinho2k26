@@ -1,5 +1,4 @@
-# agrinho 2k26
-Folha Verde
+# Folha Verde
 
 Olá! Meu nome é Valentina Brunhara, sou estudante do 1º ano do Ensino Médio e estou muito feliz em participar do Concurso Agrinho 2026 na categoria de Educação Digital.
 O meu projeto nasceu de uma ideia simples, mas com um potencial gigante: unir a tecnologia de ponta ao trabalho do campo. Batizei o projeto de Agro.I.A. – Inteligência Artificial Folha Verde.
